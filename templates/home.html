@@ -5,10 +5,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    <style>
+        h1 {
+            font-size: 2em;
+        }
+    </style>
 </head>
 <body>
-    <h1>Home Page</h1>
-    <p> Hello Ella!</p>
-    <a href="{{ url_for('about') }}">About</a> | <a href="{{ url_for('contact') }}">Contact</a>
+    <h1>{{ username }}</h1>
+    <div>
+        <h2>GeverPoints</h2>
+        <p>{{ gever_points }}</p>
+    </div>
+    <div>
+        <h2>GiverPoints</h2>
+        <p>{{ giver_points }}</p>
+    </div>
+    <form action="/givepoints">
+        <button type="submit">Give Points</button>
+    </form>
+    <form action="/logout">
+        <button type="submit">Logout</button>
+    </form>
 </body>
 </html>
