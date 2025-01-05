@@ -1,0 +1,24 @@
+<!-- transfer_points.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transfer Points</title>
+</head>
+<body>
+    <h1>Transfer Points</h1>
+    <p>Transferring points to: {{ selected_username }}</p>
+    <p>Your GiverPoints: {{ current_user_giver_points }}</p>
+    <form method="POST" action="{{ url_for('transfer_points', username=selected_username) }}">
+        <label for="points">Points to transfer:</label>
+        <input type="number" name="points" id="points" min="0" max="{{ current_user_giver_points }}" required>
+        <button type="submit">Transfer Points</button>
+    </form>
+    <form action="{{ url_for('home') }}" method="GET">
+        <button type="submit">Cancel</button>
+    </form>
+</body>
+</html>
+
+

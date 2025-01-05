@@ -5,14 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <style>
-        h1 {
-            font-size: 2em;
-        }
-    </style>
 </head>
 <body>
-    <h1>{{ username }}</h1>
+    <h1>Welcome, {{ username }}!</h1>
     <div>
         <h2>GeverPoints</h2>
         <p>{{ gever_points }}</p>
@@ -21,11 +16,13 @@
         <h2>GiverPoints</h2>
         <p>{{ giver_points }}</p>
     </div>
-    <form action="/givepoints">
-        <button type="submit">Give Points</button>
-    </form>
-    <form action="/logout">
+    <form method="POST" action="{{ url_for('logout') }}">
+        <input type="hidden" name="username" value="{{ username }}">
         <button type="submit">Logout</button>
+    </form>
+    <form action="{{ url_for('players') }}" method="GET">
+        <input type="hidden" name="username" value="{{ username }}">
+        <button type="submit">View Players</button>
     </form>
 </body>
 </html>
