@@ -1,0 +1,132 @@
+import logging
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+import time
+import random
+import sys
+import sqlite3
+from concurrent.futures import ThreadPoolExecutor
+
+# Set up logging to file
+logging.basicConfig(filename='app.log', level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+
+# Function to simulate login
+def simulate_login(driver, username, password, url):
+    driver.get(url)
+    time.sleep(2)  # Allow time for the page to load
+
+    username_input = driver.find_element(By.NAME, "username")
+    password_input = driver.find_element(By.NAME, "password")
+    username_input.send_keys(username)
+    password_input.send_keys(password)
+    password_input.send_keys(Keys.RETURN)
+    time.sleep(2)  # Allow time for the login process
+
+# Function to click view players button
+def click_view_players(driver):
+    view_players_button = driver.find_element(By.XPATH, "//button[contains(text(), 'View Players')]")
+    view_players_button.click()
+    time.sleep(2)  # Allow time for the players page to load
+
+# Function to select a random player from the list
+def select_random_player(driver):
+    player_buttons = driver.find_elements(By.XPATH, "//button")
+    random_button = random.choice(player_buttons)
+    random_button.click()
+    time.sleep(2)  # Allow time for the transfer page to load
+    return random_button.text  # Return the username of the selected player
+
+# Function to transfer random points to the selected player
+def transfer_random_points(driver, giving_username, receiving_username, max_points):
+    points_to_transfer = random.randint(0, max_points)
+    points_input = driver.find_element(By.NAME, "points")
+    points_input.send_keys(str(points_to_transfer))
+
+    transfer_button = driver.find_element(By.XPATH, "//button[contains(text(), 'Transfer Points')]")
+    transfer_button.click()
+    time.sleep(2)  # Allow time for the transfer to process
+
+    return points_to_transfer
+
+# Function to log the transaction details in the SQLite database
+def log_transaction(db_path, giving_username, receiving_username, giver_points_before, points_transferred):
+    try:
+        with sqlite3.connect(db_path) as db_conn:
+            cursor = db_conn.cursor()
+            cursor.execute("""
+                INSERT INTO log (giving_player_username, receiving_player_username, giver_points_before, points_transferred)
+                VALUES (?, ?, ?, ?)
+            """, (giving_username, receiving_username, giver_points_before, points_transferred))
+            db_conn.commit()
+            logging.info(f"Logged transaction: {giving_username} -> {receiving_username}, Points: {points_transferred}, Giver Points Before: {giver_points_before}")
+    except Exception as e:
+        logging.error(f"Failed to log transaction for {giving_username}: {e}")
+
+# Function to perform user tasks
+def user_task(username, password, url, db_path):
+    logging.info(f"Starting task for user: {username}")
+    
+    driver = webdriver.Chrome()
+    for _ in range(20):
+        try:
+            simulate_login(driver, username, password, url)
+            click_view_players(driver)
+            receiving_username = select_random_player(driver)
+
+            giver_points_text = driver.find_element(By.XPATH, "//p[contains(text(), 'Your GiverPoints')]").text
+            max_points = int(giver_points_text.split(":")[1].strip())
+            
+            points_transferred = transfer_random_points(driver, username, receiving_username, max_points)
+
+            # Log the transaction details
+            log_transaction(db_path, username, receiving_username, max_points, points_transferred)
+        except Exception as e:
+            logging.error(f"An error occurred for user {username}: {e}")
+
+        # Wait for a random number of seconds between 5 and 10
+        wait_time = random.randint(5, 10)
+        time.sleep(wait_time)
+
+    driver.quit()
+    logging.info(f"Completed task for user: {username}")
+
+def main(url):
+    db_path = 'transaction_log.db'
+
+    # Create or connect to the SQLite database
+    with sqlite3.connect(db_path) as db_conn:
+        cursor = db_conn.cursor()
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS log (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                giving_player_username TEXT,
+                receiving_player_username TEXT,
+                giver_points_before INTEGER,
+                points_transferred INTEGER
+            )
+        """)
+        db_conn.commit()
+        logging.info("Database table created")
+
+    # Generate users
+    users = [f"user{i:03d}" for i in range(1, 20)]
+    
+    # Select 5 users
+    selected_users = random.sample(users, 5)
+    logging.info(f"Selected users: {selected_users}")
+    
+    # Run tasks in parallel for each selected user
+    with ThreadPoolExecutor(max_workers=5) as executor:
+        futures = []
+        for username in selected_users:
+            password = username
+            futures.append(executor.submit(user_task, username, password, url, db_path))
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        logging.error("Usage: python script.py <login_url>")
+        sys.exit(1)
+
+    login_url = sys.argv[1]
+    main(login_url)

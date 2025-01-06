@@ -100,13 +100,13 @@ def transfer_points(username):
 
 def update_giver_points():
     job_id = str(uuid.uuid4())
-    print(f"Running job ID: {job_id} at {datetime.now()}")
+    # print(f"Running job ID: {job_id} at {datetime.now()}")
     with app.app_context():
         signed_in_users = User.query.filter_by(signed_in=True).all()
         for user in signed_in_users:
             user.giver_points += 5
             db.session.commit()
-    print(f"Completed job ID: {job_id} at {datetime.now()}")
+    # print(f"Completed job ID: {job_id} at {datetime.now()}")
 
 def reset_signed_in_status():
     with app.app_context():
