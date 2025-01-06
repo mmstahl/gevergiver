@@ -16,13 +16,13 @@
         <h2>GiverPoints</h2>
         <p>{{ giver_points }}</p>
     </div>
+    <form action="{{ url_for('players') }}" method="GET">
+        <input type="hidden" name="username" value="{{ username }}">
+        <button type="submit">Give Points</button>
+    </form>
     <form method="POST" action="{{ url_for('logout') }}">
         <input type="hidden" name="username" value="{{ username }}">
         <button type="submit">Logout</button>
-    </form>
-    <form action="{{ url_for('players') }}" method="GET">
-        <input type="hidden" name="username" value="{{ username }}">
-        <button type="submit">View Players</button>
     </form>
 </body>
 </html>
