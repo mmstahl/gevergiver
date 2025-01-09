@@ -1,0 +1,134 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    background-color: #1a0000;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Background container */
+.background-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 100vh;
+    z-index: -1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.background-container img {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+}
+
+/* Form container */
+form {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1;
+}
+
+/* Username input wrapper */
+.username-wrapper {
+    position: absolute;
+    left: calc(165 / 360 * 100%);
+    top: calc(297 / 740 * 100%);
+    width: calc((309 - 165) / 360 * 100%);
+    height: calc((322 - 297) / 740 * 100%);
+}
+
+/* Password input wrapper */
+.password-wrapper {
+    position: absolute;
+    left: calc(165 / 360 * 100%);
+    top: calc(348 / 740 * 100%);
+    width: calc((309 - 165) / 360 * 100%);
+    height: calc((373 - 348) / 740 * 100%);
+}
+
+/* Input field styles */
+input {
+    width: 100%;
+    height: 100%;
+    padding: 0 10px;
+    background-color: rgba(255, 0, 0, 0.1);
+    border: none;
+    border-radius: 5px;
+    color: #ffffff;
+    font-size: 1em;
+    transition: all 0.3s ease;
+}
+
+input:focus {
+    outline: none;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+    background-color: rgba(255, 0, 0, 0.2);
+}
+
+/* Sign in button styles */
+.signin-button {
+    position: absolute;
+    left: calc(100 / 360 * 100%);
+    top: calc(400 / 740 * 100%);
+    width: calc((250 - 100) / 360 * 100%);
+    height: calc((450 - 400) / 740 * 100%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+/* Flash messages */
+.messages {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 400px;
+    list-style: none;
+    z-index: 2;
+}
+
+.messages li {
+    background-color: rgba(255, 0, 0, 0.2);
+    border: 1px solid #ff0000;
+    color: white;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* Container for maintaining aspect ratio */
+.form-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    height: 100vh;
+    aspect-ratio: 360/740;
+}

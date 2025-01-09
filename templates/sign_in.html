@@ -1,57 +1,35 @@
-<!-- sign_in.html -->
-<!-- sign_in.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign In</title>
-    <style>
-        body {
-            background-image: url('static/sign-in background.png');
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        form {
-            max-width: 300px;
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        input {
-            display: block;
-            width: 100%;
-            margin: 10px 0;
-            padding: 8px;
-            box-sizing: border-box;
-        }
-        button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='sign_in.css') }}">
 </head>
 <body>
-    <form method="POST" action="{{ url_for('sign_in_post') }}">
-        <input type="text" name="username" id="username" placeholder="Username" required minlength="4" maxlength="16">
-        <input type="text" name="password" id="password" placeholder="Password" required minlength="4" maxlength="16">
-        <button type="submit">Sign In</button>
-    </form>
+    <div class="background-container">
+        <img src="{{ url_for('static', filename='sign-in_background.png') }}" alt="">
+    </div>
+    
+    <div class="form-container">
+        <form method="POST" action="{{ url_for('sign_in_post') }}">
+            <div class="username-wrapper">
+                <input type="text" name="username" id="username" required minlength="4" maxlength="16">
+            </div>
+            <div class="password-wrapper">
+                <input type="password" name="password" id="password" required minlength="4" maxlength="16">
+            </div>
+            <button type="submit" class="signin-button"></button>
+        </form>
+    </div>
+    
     {% with messages = get_flashed_messages() %}
         {% if messages %}
-            <ul>
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
+        <ul class="messages">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
         {% endif %}
     {% endwith %}
 </body>
