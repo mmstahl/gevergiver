@@ -2,20 +2,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
 </head>
 <body>
-    <h1>Welcome, {{ username }}!</h1>
-    <div>
-        <h2>GeverPoints</h2>
-        <p>{{ gever_points }}</p>
+    <h1>Gever! You have:</h1>
+    <div class="wrapper">
+        <div class="gever-points">
+            <p>{{ gever_points }}</p>
+        </div>
+        <div class="giver-points">
+            <p>{{ giver_points }}</p>
+        </div>
     </div>
-    <div>
-        <h2>GiverPoints</h2>
-        <p>{{ giver_points }}</p>
-    </div>
+
+    <div class="font-test">Test Text</div>
+
+
     <form action="{{ url_for('players') }}" method="GET">
         <input type="hidden" name="username" value="{{ username }}">
         <button type="submit">Give Points</button>
@@ -23,6 +28,7 @@
     <form method="POST" action="{{ url_for('logout') }}">
         <input type="hidden" name="username" value="{{ username }}">
         <button type="submit">Logout</button>
+
     </form>
 </body>
 </html>
