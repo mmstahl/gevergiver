@@ -1,0 +1,219 @@
+@font-face {
+    font-family: 'Norwester';
+    src: url('../static/norwester.otf') format('opentype');
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background: #000 url('players_background.png') no-repeat center top;
+    background-size: auto 100vh;
+}
+
+.wrapper {
+    position: relative;
+    height: 100vh;
+    margin: 0 auto;
+    width: calc(360 * (100vh / 740));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Positioning controls for GiverPoints, Home button, and Sort buttons */
+.giver-points-display {
+    position: absolute;
+    left: calc(40 * (100vh / 740));
+    top: calc(230 * (100vh / 740));
+    transform: translateX(0%);
+    width: calc(300 * (100vh / 740));
+    font-family: 'Norwester', Arial, sans-serif;
+    font-size: calc(24 * (100vh / 740));
+}
+
+.giver-points-content {
+    background-color: rgba(0, 0, 0, 0.5);
+    height: calc(30 * (100vh / 740));
+    border-radius: calc(10 * (100vh / 740));
+    border: calc(1 * (100vh / 740)) solid rgba(255, 0, 0, 0.3);
+    padding: calc(0 * (100vh / 740));
+    text-align: center;
+}
+
+.giver-points-label {
+    font-size: calc(24 * (100vh / 740));
+    color: #ffffff;
+    margin-right: calc(10 * (100vh / 740));
+}
+
+.giver-points-value {
+    font-size: calc(24 * (100vh / 740));
+    color: #ff0000;
+    font-weight: bold;
+}
+
+.home-button-display {
+    position: absolute;
+    top: calc(20 * (100vh / 740));
+    left: calc(20 * (100vh / 740));
+    width: calc(120 * (100vh / 740));
+    height: calc(50 * (100vh / 740));
+}
+
+.sort-buttons-display {
+    position: absolute;
+    top: calc(370 * (100vh / 740));
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: calc(20 * (100vh / 740));
+    width: calc(240 * (100vh / 740));
+}
+
+/* Players box styling */
+.players-box {
+    position: absolute;
+    top: calc(450 * (100vh / 740));
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(320 * (100vh / 740));
+    background-color: rgba(0, 0, 0, 0.4);
+    border: calc(1 * (100vh / 740)) solid rgba(255, 255, 255, 0.3);
+    border-radius: calc(10 * (100vh / 740));
+    padding: calc(10 * (100vh / 740));
+}
+
+.column-headers {
+    display: grid;
+    grid-template-columns: 1fr calc(120 * (100vh / 740));
+    padding: calc(10 * (100vh / 740));
+    gap: calc(20 * (100vh / 740));
+}
+
+.header-gever, .header-points {
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: calc(5 * (100vh / 740));
+    padding: calc(5 * (100vh / 740)) calc(0 * (100vh / 740));
+    font-size: calc(24 * (100vh / 740));
+    color: white;
+    font-family: 'Norwester', Arial, sans-serif;
+    font-size: calc(24 * (100vh / 740));
+}
+
+.player-row {
+    display: grid;
+    grid-template-columns: 1fr calc(120 * (100vh / 740));
+    align-items: center;
+    gap: calc(20 * (100vh / 740));
+}
+
+/* Button styling */
+/* button {
+    width: 100%;
+    height: 100%;
+    padding: 0 calc(10 * (100vh / 740));
+    background-color: rgba(255, 0, 0, 0.2);
+    border-radius: calc(5 * (100vh / 740));
+    color: #ffffff;
+    font-family: 'Norwester', Arial, sans-serif;
+    font-size: calc(18 * (100vh / 740));
+    transition: all 0.3s ease;
+    text-align: left;
+    border: none;
+} */
+
+button {
+    width: auto;
+    height: 100%;
+    padding: 0 calc(10 * (100vh / 740));
+    background: linear-gradient(to bottom, rgba(255, 0, 0, 0.8), rgba(200, 0, 0, 0.1));
+    border-radius: calc(5 * (100vh / 740));
+    color: #ffffff;
+    font-family: 'Norwester', Arial, sans-serif;
+    font-size: calc(18 * (100vh / 740));
+    transition: all 0.3s ease;
+    text-align: left;
+    border: calc(1 * (100vh / 740)) solid rgba(255, 60, 60, 0.3);
+    box-shadow: 
+        inset 0 calc(1 * (100vh / 740)) calc(2 * (100vh / 740)) rgba(255, 255, 255, 0.2),
+        0 calc(2 * (100vh / 740)) calc(4 * (100vh / 740)) rgba(0, 0, 0, 0.3);
+}
+
+.home-button-display button {
+    width: 100%;
+    height: calc(50 * (100vh / 740));
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.4);
+    border: calc(2 * (100vh / 740)) solid rgba(255, 0, 0, 1.0);
+    border-radius: calc(25 * (100vh / 740));
+    font-size: calc(20 * (100vh / 740));
+}
+
+.sort-buttons-display {
+    position: absolute;
+    top: calc(370 * (100vh / 740));
+    left: 20%;
+    transform: translateX(0%);
+    display: flex;
+    flex-direction: row;
+    gap: calc(20 * (100vh / 740));
+    width: auto;
+}
+
+.sort-buttons-display button {
+    width: auto;
+    height: calc(50 * (100vh / 740));
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.4);
+    border: calc(2 * (100vh / 740)) solid rgba(255, 0, 0, 1.0);
+    border-radius: calc(25 * (100vh / 740));
+    font-size: calc(20 * (100vh / 740));
+}
+
+button:hover {
+    box-shadow: 0 0 calc(15 * (100vh / 740)) rgba(255, 0, 0, 0.5);
+    background-color: rgba(255, 0, 0, 0.4);
+}
+
+/* List styling */
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    margin: calc(5 * (100vh / 740)) 0;
+    padding: calc(5 * (100vh / 740));
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: calc(5 * (100vh / 740));
+}
+
+
+li:active {
+    background: linear-gradient(to bottom, rgba(40, 40, 40, 0.8), rgba(10, 10, 10, 0.8));
+    box-shadow: 
+        inset 0 calc(1 * (100vh / 740)) calc(3 * (100vh / 740)) rgba(0, 0, 0, 0.3),
+        0 calc(1 * (100vh / 740)) calc(2 * (100vh / 740)) rgba(0, 0, 0, 0.1);
+    transform: translateY(calc(1 * (100vh / 740)));
+}
+
+
+.gever-points {
+    color: #ff0000;
+    font-weight: bold;
+    font-size: calc(18 * (100vh / 740));
+    font-family: 'Norwester', Arial, sans-serif;
+}
+
+@media screen and (max-width: 740px) {
+    body {
+        background-size: cover;
+    }
+    
+    .wrapper {
+        width: 100%;
+    }
+}
