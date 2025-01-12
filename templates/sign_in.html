@@ -14,7 +14,7 @@
     <div class="form-container">
         <form method="POST" action="{{ url_for('sign_in_post') }}">
             <div class="username-wrapper">
-                <input type="text" name="username" id="username" required minlength="4" maxlength="8">
+                <input type="text" name="username" id="username" required minlength="4" maxlength="8" value="{{ username if username else '' }}">
             </div>
             <div class="password-wrapper">
                 <input type="password" name="password" id="password" required minlength="4" maxlength="8">

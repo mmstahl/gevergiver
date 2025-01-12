@@ -46,10 +46,10 @@ def sign_in_post():
     password = request.form.get('password').strip()
 
     if len(username) < 4 or len(password) < 4:
-        flash('Username and password minimum length is 4 characters.')
+        # flash('Username and password minimum length is 4 characters.')
         return redirect(url_for('sign_in'))
     if len(username) > 16 or len(password) > 16:
-        flash('Username and password maximum length is 16 characters.')
+        # flash('Username and password maximum length is 8 characters.')
         return redirect(url_for('sign_in'))
     user = User.query.filter_by(username=username).first()
     if user:
@@ -61,7 +61,7 @@ def sign_in_post():
             return redirect(url_for('home'))
         else:
             flash('This username exists already, but the password is incorrect')
-            return redirect(url_for('sign_in'))
+            return render_template('sign_in.html', username=username)
     else:
         last_activity = datetime.utcnow().replace(tzinfo=pytz.utc).astimezone(pytz.timezone('Etc/GMT-2'))
         new_user = User(username=username, password=password, signed_in=True, last_activity=last_activity)
