@@ -5,20 +5,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Transfer Points</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='transfer_points.css') }}">
 </head>
 <body>
-    <h1>Give Points</h1>
-    <p>Giving points to: {{ selected_username }}</p>
-    <p>Your GiverPoints: {{ current_user_giver_points }}</p>
-    <form method="POST" action="{{ url_for('transfer_points', username=selected_username) }}">
-        <label for="points">Points to give:</label>
-        <input type="number" name="points" id="points" min="0" max="{{ current_user_giver_points }}" required>
-        <button type="submit">Transfer Points</button>
-    </form>
-    <form action="{{ url_for('home') }}" method="GET">
-        <button type="submit">Cancel</button>
-    </form>
+    <div class="wrapper">
+        <p class="selected-username">{{ selected_username }}</p>
+        <p class="user-giver-points">
+            <span class="prefix-text">Out of your</span>
+            <span class="points-value">{{ current_user_giver_points }}</span>
+            <span class="suffix-text">Giver points</span>
+        </p>
+        <form class="transfer-form" method="POST" action="{{ url_for('transfer_points', username=selected_username) }}">
+            <input class="points-input" type="number" name="points" id="points" min="0" max="{{ current_user_giver_points }}" required placeholder="?כמה">
+            <button type="submit">Transfer Points</button>
+        </form>
+        <form action="{{ url_for('home') }}" method="GET">
+            <button type="submit">Cancel</button>
+        </form>
+    </div>
 </body>
 </html>
-
-
