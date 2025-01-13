@@ -80,6 +80,8 @@ def logout():
     session.pop('current_username', None)
     return redirect(url_for('sign_in'))
 
+
+
 @app.route('/transfer_points/<username>', methods=['GET', 'POST'])
 def transfer_points(username):
     current_username = session.get('current_username')
@@ -121,6 +123,36 @@ def transfer_points(username):
                          current_username=current_username, 
                          selected_username=username, 
                          current_user_giver_points=current_user.giver_points)
+
+
+
+@app.route('/get_points')
+def get_points():
+    current_username = session.get('current_username')
+    current_user = User.query.filter_by(username=current_username).first()
+    users = User.query.all()
+    
+    return jsonify({
+        'current_user_giver_points': current_user.giver_points if current_user else 0,
+        'users': [{
+            'username': user.username,
+            'gever_points': user.gever_points
+        } for user in users]
+    })
+
+
+@app.route('/get_user_points')
+def get_user_points():
+    username = session.get('current_username')
+    user = User.query.filter_by(username=username).first()
+    if user:
+        return jsonify({
+            'gever_points': user.gever_points,
+            'giver_points': user.giver_points
+        })
+    return jsonify({'error': 'User not found'}), 404
+
+
 
 def update_giver_points():
     job_id = str(uuid.uuid4())

@@ -16,6 +16,7 @@
             let ul = document.querySelector('ul');
             ul.innerHTML = '';
             players.forEach(player => ul.appendChild(player));
+            localStorage.setItem('sortPreference', 'geverPoints');
         }
 
         function sortPlayersAlphabetically() {
@@ -28,7 +29,51 @@
             let ul = document.querySelector('ul');
             ul.innerHTML = '';
             players.forEach(player => ul.appendChild(player));
+            localStorage.setItem('sortPreference', 'alphabetical');
         }
+
+        // Function to apply the stored sort preference
+        function applySortPreference() {
+            const preference = localStorage.getItem('sortPreference');
+            if (preference === 'alphabetical') {
+                sortPlayersAlphabetically();
+            } else {
+                sortPlayersByGeverPoints();
+            }
+        }
+
+        // Function to update points from server
+        async function updatePoints() {
+            try {
+                const response = await fetch('{{ url_for("get_points") }}');
+                const data = await response.json();
+                
+                // Update current user's giver points
+                document.querySelector('.giver-points-value').textContent = data.current_user_giver_points;
+                
+                // Update all player gever points
+                const playerElements = document.querySelectorAll('li');
+                playerElements.forEach(playerEl => {
+                    const username = playerEl.querySelector('button').textContent;
+                    const pointsSpan = playerEl.querySelector('.gever-points');
+                    const userData = data.users.find(user => user.username === username);
+                    if (userData) {
+                        pointsSpan.textContent = userData.gever_points;
+                    }
+                });
+
+                // Reapply current sort after updating points
+                applySortPreference();
+            } catch (error) {
+                console.error('Error updating points:', error);
+            }
+        }
+
+        // Start periodic updates when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            applySortPreference();
+            setInterval(updatePoints, 2000);
+        });
     </script>
 </head>
 <body>

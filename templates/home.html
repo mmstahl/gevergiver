@@ -11,15 +11,14 @@
     <h1>Gever! You have:</h1>
     <div class="wrapper">
         <div class="gever-points">
-            <p>{{ gever_points }}</p>
+            <p id="geverPoints">{{ gever_points }}</p>
         </div>
         <div class="giver-points">
-            <p>{{ giver_points }}</p>
+            <p id="giverPoints">{{ giver_points }}</p>
         </div>
     </div>
 
     <div class="font-test">Test Text</div>
-
 
     <form action="{{ url_for('players') }}" method="GET">
         <input type="hidden" name="username" value="{{ username }}">
@@ -28,7 +27,23 @@
     <form method="POST" action="{{ url_for('logout') }}">
         <input type="hidden" name="username" value="{{ username }}">
         <button type="submit">Logout</button>
-
     </form>
+
+    <script>
+        async function updatePoints() {
+            try {
+                const response = await fetch('{{ url_for("get_user_points") }}');
+                const data = await response.json();
+                
+                document.getElementById('geverPoints').textContent = data.gever_points;
+                document.getElementById('giverPoints').textContent = data.giver_points;
+            } catch (error) {
+                console.error('Error updating points:', error);
+            }
+        }
+
+        // Update points every 2 seconds
+        setInterval(updatePoints, 2000);
+    </script>
 </body>
 </html>
