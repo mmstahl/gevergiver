@@ -15,13 +15,46 @@
             <span class="points-value">{{ current_user_giver_points }}</span>
             <span class="suffix-text">Giver points</span>
         </p>
-        <form class="transfer-form" method="POST" action="{{ url_for('transfer_points', username=selected_username) }}">
-            <input class="points-input" type="number" name="points" id="points" min="0" max="{{ current_user_giver_points }}" required placeholder="?כמה">
+        <form class="transfer-form" method="POST" action="{{ url_for('transfer_points', username=selected_username) }}" id="transferForm">
+            <input class="points-input" type="number" name="points" id="points" 
+                   min="0" step="1"
+                   max="{{ current_user_giver_points }}" 
+                   required 
+                   placeholder="?כמה"
+                   oninput="this.value = this.value.replace(/[^0-9]/g, '');">
             <button type="submit">Transfer Points</button>
         </form>
         <form action="{{ url_for('home') }}" method="GET">
             <button type="submit">Cancel</button>
         </form>
     </div>
+
+    <audio id="kamzanAudio" src="{{ url_for('static', filename='kamzan.m4a') }}"></audio>
+
+    <script>
+        document.getElementById('transferForm').addEventListener('submit', async function(e) {
+            e.preventDefault(); // Prevent immediate form submission
+            
+            const pointsInput = document.getElementById('points');
+            const points = parseInt(pointsInput.value);
+            const audio = document.getElementById('kamzanAudio');
+            
+            if (isNaN(points) || points < 0 || !Number.isInteger(points)) {
+                alert('Please enter a valid positive integer number');
+                return;
+            }
+
+            if (points >= 1 && points <= 4) {
+                audio.play();
+                // Wait for the audio to finish playing before submitting
+                await new Promise((resolve) => {
+                    audio.onended = resolve;
+                });
+            }
+            
+            // Now submit the form
+            this.submit();
+        });
+    </script>
 </body>
 </html>

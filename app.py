@@ -84,19 +84,33 @@ def logout():
 def transfer_points(username):
     current_username = session.get('current_username')
     if request.method == 'POST':
-        points = int(request.form.get('points'))
-        current_user = User.query.filter_by(username=current_username).first()
-        selected_user = User.query.filter_by(username=username).first()
+        try:
+            points = int(request.form.get('points'))
+            if points < 0:
+                flash('Points must be a positive number!')
+                return redirect(url_for('transfer_points', username=username))
+                
+            current_user = User.query.filter_by(username=current_username).first()
+            selected_user = User.query.filter_by(username=username).first()
 
-        if current_user and selected_user and points <= current_user.giver_points:
-            current_user.giver_points -= points
-            selected_user.gever_points += points
-            db.session.commit()
-            flash('Points transferred successfully!')
-            return redirect(url_for('home'))
+            if current_user and selected_user and points <= current_user.giver_points:
+                current_user.giver_points -= points
+                selected_user.gever_points += points
+                db.session.commit()
+                flash('Points transferred successfully!')
+                return redirect(url_for('home'))
+            else:
+                flash('Invalid transfer amount!')
+                
+        except ValueError:
+            flash('Please enter a valid, positive integer number!')
+            return redirect(url_for('transfer_points', username=username))
 
     current_user = User.query.filter_by(username=current_username).first()
-    return render_template('transfer_points.html', current_username=current_username, selected_username=username, current_user_giver_points=current_user.giver_points)
+    return render_template('transfer_points.html', 
+                         current_username=current_username, 
+                         selected_username=username, 
+                         current_user_giver_points=current_user.giver_points)
 
 def update_giver_points():
     job_id = str(uuid.uuid4())
