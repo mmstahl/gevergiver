@@ -17,7 +17,7 @@ class User(db.Model):
     username = db.Column(db.String(16), unique=True, nullable=False)
     password = db.Column(db.String(16), nullable=False)
     gever_points = db.Column(db.Integer, default=0)
-    giver_points = db.Column(db.Integer, default=100)
+    giver_points = db.Column(db.Integer, default=10)
     signed_in = db.Column(db.Boolean, default=False)
     last_activity = db.Column(db.DateTime, default=datetime.utcnow)
 
@@ -48,7 +48,7 @@ def sign_in_post():
     if len(username) < 4 or len(password) < 4:
         # flash('Username and password minimum length is 4 characters.')
         return redirect(url_for('sign_in'))
-    if len(username) > 16 or len(password) > 16:
+    if len(username) > 8 or len(password) > 8:
         # flash('Username and password maximum length is 8 characters.')
         return redirect(url_for('sign_in'))
     user = User.query.filter_by(username=username).first()
@@ -177,7 +177,7 @@ job_defaults = {
     'max_instances': 1
 }
 scheduler = BackgroundScheduler(executors={'default': ThreadPoolExecutor(1)}, job_defaults=job_defaults)
-scheduler.add_job(update_giver_points, 'interval', seconds=10)
+scheduler.add_job(update_giver_points, 'interval', minutes=3)
 scheduler.start()
 
 if __name__ == '__main__':
