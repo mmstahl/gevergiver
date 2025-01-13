@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timedelta
 import os
@@ -87,8 +87,10 @@ def transfer_points(username):
         try:
             points = int(request.form.get('points'))
             if points < 0:
-                flash('Points must be a positive number!')
-                return redirect(url_for('transfer_points', username=username))
+                return jsonify({
+                    'success': False,
+                    'message': 'Points must be a positive number!'
+                })
                 
             current_user = User.query.filter_by(username=current_username).first()
             selected_user = User.query.filter_by(username=username).first()
@@ -97,14 +99,22 @@ def transfer_points(username):
                 current_user.giver_points -= points
                 selected_user.gever_points += points
                 db.session.commit()
-                flash('Points transferred successfully!')
-                return redirect(url_for('home'))
+                return jsonify({
+                    'success': True,
+                    'message': 'Points transferred successfully!',
+                    'redirect': url_for('home')
+                })
             else:
-                flash('Invalid transfer amount!')
+                return jsonify({
+                    'success': False,
+                    'message': 'Invalid transfer amount!'
+                })
                 
         except ValueError:
-            flash('Please enter a valid, positive integer number!')
-            return redirect(url_for('transfer_points', username=username))
+            return jsonify({
+                'success': False,
+                'message': 'Please enter a valid integer number!'
+            })
 
     current_user = User.query.filter_by(username=current_username).first()
     return render_template('transfer_points.html', 

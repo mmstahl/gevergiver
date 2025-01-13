@@ -6,6 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Transfer Points</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='transfer_points.css') }}">
+    <style>
+        .flash-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid red;
+            z-index: 1000;
+            display: none;
+            font-family: 'Norwester', Arial, sans-serif;
+        }
+    </style>
 </head>
 <body>
     <div class="wrapper">
@@ -21,6 +37,7 @@
                    max="{{ current_user_giver_points }}" 
                    required 
                    placeholder="?כמה"
+                   autofocus
                    oninput="this.value = this.value.replace(/[^0-9]/g, '');">
             <button type="submit">Transfer Points</button>
         </form>
@@ -30,6 +47,7 @@
     </div>
 
     <audio id="kamzanAudio" src="{{ url_for('static', filename='kamzan.m4a') }}"></audio>
+    <div id="flashMessage" class="flash-message"></div>
 
     <script>
         document.getElementById('transferForm').addEventListener('submit', async function(e) {
@@ -52,8 +70,32 @@
                 });
             }
             
-            // Now submit the form
-            this.submit();
+            // Submit form and handle response
+            const formData = new FormData(this);
+            try {
+                const response = await fetch(this.action, {
+                    method: 'POST',
+                    body: formData,
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Show flash message
+                    const flashMessage = document.getElementById('flashMessage');
+                    flashMessage.textContent = data.message;
+                    flashMessage.style.display = 'block';
+                    
+                    // Hide message after 2 seconds and redirect
+                    setTimeout(() => {
+                        flashMessage.style.display = 'none';
+                        window.location.href = data.redirect;
+                    }, 2000);
+                } else {
+                    alert(data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
         });
     </script>
 </body>
