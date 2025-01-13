@@ -5,6 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Players</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='players.css') }}">
+    <style>
+        .current-user {
+            color: #fff;
+            opacity: 0.7;
+        }
+        .current-user-text {
+            padding: 5px 10px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            font-family: 'Norwester', Arial, sans-serif;
+        }
+    </style>
     <script>
         function sortPlayersByGeverPoints() {
             let players = Array.from(document.querySelectorAll('li'));
@@ -22,8 +34,8 @@
         function sortPlayersAlphabetically() {
             let players = Array.from(document.querySelectorAll('li'));
             players.sort((a, b) => {
-                let aName = a.querySelector('button').textContent;
-                let bName = b.querySelector('button').textContent;
+                let aName = a.querySelector('.player-name').textContent.replace(' (You)', '');
+                let bName = b.querySelector('.player-name').textContent.replace(' (You)', '');
                 return aName.localeCompare(bName);
             });
             let ul = document.querySelector('ul');
@@ -54,7 +66,8 @@
                 // Update all player gever points
                 const playerElements = document.querySelectorAll('li');
                 playerElements.forEach(playerEl => {
-                    const username = playerEl.querySelector('button').textContent;
+                    const nameEl = playerEl.querySelector('.player-name');
+                    const username = nameEl.textContent.replace(' (You)', '');
                     const pointsSpan = playerEl.querySelector('.gever-points');
                     const userData = data.users.find(user => user.username === username);
                     if (userData) {
@@ -112,19 +125,23 @@
             </div>
             <ul>
                 {% for user in users %}
-                    {% if user.username != current_username %}
-                        <li>
-                            <div class="player-row">
-                                <form action="{{ url_for('transfer_points', username=user.username) }}" method="GET">
-                                    <button type="submit">{{ user.username }}</button>
-                                </form>
-                                <div class="points-section">
-                                    <span></span>
-                                    <span class="gever-points">{{ user.gever_points }}</span>
+                    <li>
+                        <div class="player-row {% if user.username == current_username %}current-user{% endif %}">
+                            {% if user.username == current_username %}
+                                <div class="current-user-text">
+                                    <span class="player-name">{{ user.username }} (You)</span>
                                 </div>
+                            {% else %}
+                                <form action="{{ url_for('transfer_points', username=user.username) }}" method="GET">
+                                    <button type="submit" class="player-name">{{ user.username }}</button>
+                                </form>
+                            {% endif %}
+                            <div class="points-section">
+                                <span></span>
+                                <span class="gever-points">{{ user.gever_points }}</span>
                             </div>
-                        </li>
-                    {% endif %}
+                        </div>
+                    </li>
                 {% endfor %}
             </ul>
         </div>
