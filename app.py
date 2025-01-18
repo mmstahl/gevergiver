@@ -126,14 +126,6 @@ def transfer_points(username):
 
     if (current_username == username):
         flash('תחמן!!! You cannot transfer points to yourself!')
-        # playsound('tachman.wav')
-        pygame.init()
-        pygame.mixer.music.load('static/tachman.wav')
-        pygame.mixer.music.play()
-        pygame.time.delay(2000)  # Play for 3 seconds
-        pygame.mixer.music.stop()
-
-
         return logout()
 
     else: 
