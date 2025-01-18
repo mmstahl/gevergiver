@@ -6,6 +6,10 @@ import pytz
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.executors.pool import ThreadPoolExecutor
 import uuid
+# from playsound import playsound
+
+import pygame
+
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
@@ -119,10 +123,24 @@ def transfer_points(username):
             })
 
     current_user = User.query.filter_by(username=current_username).first()
-    return render_template('transfer_points.html', 
-                         current_username=current_username, 
-                         selected_username=username, 
-                         current_user_giver_points=current_user.giver_points)
+
+    if (current_username == username):
+        flash('תחמן!!! You cannot transfer points to yourself!')
+        # playsound('tachman.wav')
+        pygame.init()
+        pygame.mixer.music.load('static/tachman.wav')
+        pygame.mixer.music.play()
+        pygame.time.delay(2000)  # Play for 3 seconds
+        pygame.mixer.music.stop()
+
+
+        return logout()
+
+    else: 
+        return render_template('transfer_points.html', 
+                            current_username=current_username, 
+                            selected_username=username, 
+                            current_user_giver_points=current_user.giver_points)
 
 
 
