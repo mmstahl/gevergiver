@@ -25,10 +25,12 @@ body {
 }
 
 
+
 h1 {
     position: absolute;
     margin: 0;
-    left: calc(160 * (100vh / 740));
+    left: 50%;
+    transform: translateX(-50%);
     top: calc(270 * (100vh / 740));
     color: #fff;
     font-family: 'Norwester', Arial, sans-serif;
@@ -38,7 +40,8 @@ h1 {
 
 @media screen and (max-width: 740px) {
     h1 {
-        left: calc(60 * (100vh / 740) * 0.7);
+        left: calc(30 * (100vh / 740));
+        transform: none;  /* Remove the centering transform for mobile */
     }
 }
 
