@@ -1,21 +1,23 @@
 1.	Install Python. Everything below worked for Python 3.12.8  and pip 24.3.1  . Anything else: צה"ל לא אחראי
 
 2.	Create a virtual environment. In a Windows shell (“cmd”) do the following: 
-```
-// Create the virtual environment in folder gg_venv
+```python
+# Create the virtual environment in folder gg_venv
 python -m venv gg_venv 
 cd gg_venv
-// Activate the virtual environment
-Scripts\activate.bat
-// you should now see “(gg_venv)” at the left side of the command prompt.
 
-// Get the application from github (I am assuming you have git installed on your machine. If not, install it first)
+# Activate the virtual environment
+Scripts\activate.bat
+
+# You should now see “(gg_venv)” at the left side of the command prompt.
+
+# Get the application from github (I am assuming you have git installed on your machine. If not, install it first)
 git clone https://github.com/mmstahl/gevergiver.git
 
-// install the requirements: 
+# Install the requirements: 
 pip install -r requirements.txt
 
-// Run the application:
+# Run the application:
 python app.py
 ```
 
