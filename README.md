@@ -1,12 +1,12 @@
 1.	Install Python. Everything below worked for Python 3.12.8  and pip 24.3.1  . Anything else: צה"ל לא אחראי
 
-2.	Create a virtual environment. In a Windows shell (“cmd”) do the following: 
+2.	Create a virtual environment. In a Windows shell (“cmd”) do the following: (you can do everything below also on Bash shell)
 ```python
 # Create the virtual environment in folder gg_venv
 python -m venv gg_venv 
 cd gg_venv
 
-# Activate the virtual environment
+# Activate the virtual environment (on Linux, run this command instead:   `source bin/activate`    )
 Scripts\activate.bat
 
 # You should now see “(gg_venv)” at the left side of the command prompt.
