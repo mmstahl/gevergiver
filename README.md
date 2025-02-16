@@ -3,22 +3,22 @@
 2.	Create a virtual environment. In a Windows shell (“cmd”) do the following: (you can do everything below also on Bash shell)
 ```python
 # Create the virtual environment in folder gg_venv
-**python -m venv gg_venv **
-**cd gg_venv**
+python -m venv gg_venv 
+cd gg_venv
 
-# Activate the virtual environment (on Linux, run this command instead:   **source bin/activate**    )
-**Scripts\activate.bat**
+# Activate the virtual environment (on Linux, run this command instead:   source bin/activate   )
+Scripts\activate.bat
 
-# You should now see **(gg_venv)** at the left side of the command prompt.
+# You should now see "(gg_venv)" at the left side of the command prompt.
 
 # Get the application from github (I am assuming you have git installed on your machine. If not, install it first)
-**git clone https://github.com/mmstahl/gevergiver.git**
+git clone https://github.com/mmstahl/gevergiver.git
 
 # Install the requirements: 
-**pip install -r requirements.txt**
+pip install -r requirements.txt
 
 # Run the application:
-**python app.py**
+python app.py
 ```
 
 3.	The application is accessible from: 
